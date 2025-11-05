@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Made by Dandy - PRIMEpluto_</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Staggered Menu Styles - FIXED */
+        .staggered-menu-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .staggered-menu-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2em;
+            background: transparent;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .staggered-menu-header > * {
+            pointer-events: auto;
+        }
+
+        .sm-logo {
+            display: flex;
+            align-items: center;
+            user-select: none;
+            font-family: 'Anton', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .sm-logo span {
+            color: #8cc84b;
+        }
+
+        .sm-toggle {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 500;
+            line-height: 1;
+            overflow: visible;
+            font-size: 1.1rem;
+            z-index: 1001;
+            padding: 10px;
+        }
+
+        .sm-toggle:focus-visible {
+            outline: 2px solid #ffffffaa;
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
+        .sm-toggle-textWrap {
+            position: relative;
+            display: inline-block;
+            height: 1em;
+            overflow: hidden;
+            white-space: nowrap;
+            width: auto;
+            min-width: 60px;
+        }
+
+        .sm-toggle-textInner {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+            transition: transform 0.5s ease;
+        }
+
+        .sm-toggle-line {
+            display: block;
+            height: 1em;
+            line-height: 1;
+        }
+
+        .sm-icon {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            flex: 0 0 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            will-change: transform;
+        }
+
+        .sm-icon-line {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 100%;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+            transform: translate(-50%, -50%);
+            transition: transform 0.3s ease;
+        }
+
+        .sm-icon-line-v {
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        .staggered-menu-wrapper[data-open="true"] .sm-icon-line-v {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        .staggered-menu-wrapper[data-open="true"] .sm-icon-line {
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .staggered-menu-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: clamp(260px, 38vw, 420px);
+            height: 100%;
+            background: rgba(26, 26, 26, 0.98);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            padding: 8em 2em 2em 2em;
+            overflow-y: auto;
+            z-index: 10;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: auto;
+        }
+
+        .staggered-menu-wrapper[data-open="true"] .staggered-menu-panel {
+            transform: translateX(0);
+        }
+
+        .sm-panel-inner {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sm-socials {
+            margin-top: auto;
+            padding-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sm-socials-title {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #8cc84b;
+        }
+
+        .sm-socials-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .sm-socials-link {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #fff;
+            text-decoration: none;
+            position: relative;
+            padding: 2px 0;
+            display: inline-block;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+            cursor: pointer;
+        }
+
+        .sm-socials-link:hover {
+            color: #8cc84b;
+            opacity: 1;
+        }
+
+        .sm-panel-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sm-panel-item {
+            position: relative;
+            color: #fff;
+            font-weight: 600;
+            font-size: 2.5rem;
+            cursor: pointer;
+            line-height: 1;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            padding-right: 1.4em;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .sm-panel-item:hover {
+            color: #8cc84b;
+        }
+
+        .sm-panel-itemLabel {
+            display: inline-block;
+        }
+
+        /* Header Section with Video Background */
+        .video-header {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            margin-bottom: 80px;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            filter: brightness(0.3);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Use the provided photo as a full cover background (no gradient) */
+            background-image: url('https://cdn.discordapp.com/attachments/1326445158748782696/1435288689600233622/2025-06-01_02.38.25.png?ex=690b6c41&is=690a1ac1&hm=fe4f4edc03c7e366166cd7029123093169478652bc5b70155f5feb9d2444f5c3&');
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: -1;
+            /* Slightly darken the photo so white text remains readable */
+            filter: brightness(0.6);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .name-section {
+            flex: 1;
+            text-align: left;
+            padding-right: 60px;
+        }
+
+        .name {
+            font-family: 'Anton', sans-serif;
+            font-size: 5.5rem;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: fadeIn 1.5s ease-out;
+            line-height: 1.1;
+            background: linear-gradient(45deg, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .background {
+            font-size: 1.6rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            font-weight: 400;
+            animation: fadeIn 2s ease-out;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .name-secondary {
+            font-family: 'Anton', sans-serif;
+            font-size: 4rem;
+            letter-spacing: 3px;
+            opacity: 0.3;
+            text-transform: uppercase;
+            animation: fadeIn 2.5s ease-out;
+            margin-top: 20px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            background: linear-gradient(45deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Section */
+        .about {
+            max-width: 1000px;
+            margin: 0 auto 120px;
+            padding: 60px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            animation: slideUp 1s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .about h2 {
+            font-family: 'Anton', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            text-align: center;
+            opacity: 0.95;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .about-content {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            opacity: 0.9;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Skills Section - Simplified */
+        .skills-container {
+            margin: 120px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skills-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: 2px;
+            opacity: 0.95;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .skills-track {
+            display: flex;
+            animation: scroll 35s linear infinite;
+            gap: 60px;
+            padding: 30px 0;
+        }
+
+        .skill-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 200px;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            opacity: 0.6;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+        }
+
+        .skill-item:hover {
+            opacity: 1;
+            transform: translateY(-15px) scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-icon {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            filter: brightness(1.2);
+        }
+
+        .skill-item:hover .skill-icon {
+            transform: scale(1.2);
+            filter: brightness(1.5);
+        }
+
+        .skill-name {
+            font-size: 1.3rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        /* React specific styling */
+        .fa-react {
+            color: #61dafb;
+        }
+
+        /* JavaScript specific styling */
+        .fa-js {
+            color: #f7df1e;
+        }
+
+        /* GitHub specific styling */
+        .fa-github {
+            color: #f0f6fc;
+        }
+
+        /* VS Code specific styling */
+        .fa-code {
+            color: #0078d7;
+        }
+
+        /* Python specific styling */
+        .fa-python {
+            color: #ffd343;
+        }
+
+        /* Social Media Section */
+        .social-media {
+            margin: 120px 0;
+            padding: 80px 0;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.95;
+        }
+
+        .social-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            opacity: 0.95;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .social-description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            min-width: 150px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .social-link:hover {
+            opacity: 1;
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .social-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* TikTok specific styling */
+        .fa-tiktok {
+            color: #ff0050;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-200px * 5 - 60px * 5)); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Decorative Elements */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 70%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            top: 40%;
+            left: 90%;
+            animation-delay: 4s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            top: 80%;
+            left: 10%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* High Contrast Text Elements */
+        .highlight-text {
+            background: linear-gradient(45deg, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .low-opacity-text {
+            opacity: 0.3;
+            background: linear-gradient(45deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Click Spark Effect */
+        .click-spark {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .spark {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #fff;
+            animation: spark-animation 0.4s ease-out forwards;
+        }
+
+        @keyframes spark-animation {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design for Desktop/Laptop only */
+        @media (max-width: 1024px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .name-section {
+                padding-right: 0;
+                margin-bottom: 60px;
+            }
+            
+            .staggered-menu-panel {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .name {
+                font-size: 4rem;
+            }
+            
+            .name-secondary {
+                font-size: 3rem;
+            }
+            
+            .background {
+                font-size: 1.4rem;
+            }
+            
+            .about {
+                padding: 40px 30px;
+            }
+            
+            .about h2 {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- Staggered Menu - FIXED -->
+    <div class="staggered-menu-wrapper" data-position="right" data-open="false">
+        <header class="staggered-menu-header" aria-label="Main navigation header">
+            <div class="sm-logo" aria-label="Logo">PRIME<span>pluto_</span></div>
+            <button class="sm-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="staggered-menu-panel" type="button">
+                <span class="sm-toggle-textWrap" aria-hidden="true">
+                    <span class="sm-toggle-textInner">
+                        <span class="sm-toggle-line">Menu</span>
+                        <span class="sm-toggle-line">Close</span>
+                    </span>
+                </span>
+                <span class="sm-icon" aria-hidden="true">
+                    <span class="sm-icon-line"></span>
+                    <span class="sm-icon-line sm-icon-line-v"></span>
+                </span>
+            </button>
+        </header>
+
+        <aside id="staggered-menu-panel" class="staggered-menu-panel" aria-hidden="true">
+            <div class="sm-panel-inner">
+                <ul class="sm-panel-list" role="list">
+                    <li class="sm-panel-itemWrap">
+                        <a class="sm-panel-item" href="#home" aria-label="Go to home page">
+                            <span class="sm-panel-itemLabel">Home</span>
+                        </a>
+                    </li>
+                    <li class="sm-panel-itemWrap">
+                        <a class="sm-panel-item" href="#about" aria-label="Learn about me">
+                            <span class="sm-panel-itemLabel">About</span>
+                        </a>
+                    </li>
+                    <li class="sm-panel-itemWrap">
+                        <a class="sm-panel-item" href="#skills" aria-label="View my skills">
+                            <span class="sm-panel-itemLabel">Skills</span>
+                        </a>
+                    </li>
+                    <li class="sm-panel-itemWrap">
+                        <a class="sm-panel-item" href="#social" aria-label="Get in touch">
+                            <span class="sm-panel-itemLabel">Social</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="sm-socials" aria-label="Social links">
+                    <h3 class="sm-socials-title">Socials</h3>
+                    <ul class="sm-socials-list" role="list">
+                        <li class="sm-socials-item">
+                            <a href="https://github.com" target="_blank" class="sm-socials-link">GitHub</a>
+                        </li>
+                        <li class="sm-socials-item">
+                            <a href="https://www.instagram.com/dendyyyvel?igsh=ZHI1cnZpZDN3emZ1" target="_blank" class="sm-socials-link">Instagram</a>
+                        </li>
+                        <li class="sm-socials-item">
+                            <a href="https://www.tiktok.com/@f1rst167?_r=1&_t=ZS-917cbzFviu0" target="_blank" class="sm-socials-link">TikTok</a>
+                        </li>
+                        <li class="sm-socials-item">
+                            <a href="https://discord.com" target="_blank" class="sm-socials-link">Discord</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div class="container">
+        <!-- Home Section with Video Background -->
+        <section class="video-header" id="home">
+            <!-- Poster image added as a fallback; playsinline/preload/cors attributes improve mobile and cross-origin behavior -->
+            <video class="video-background" autoplay muted loop playsinline preload="auto" crossorigin="anonymous" poster="https://cdn.discordapp.com/attachments/1326445158748782696/1435288689600233622/2025-06-01_02.38.25.png?ex=690b6c41&is=690a1ac1&hm=fe4f4edc03c7e366166cd7029123093169478652bc5b70155f5feb9d2444f5c3&">
+                <source src="https://screenapp.io/app/app/v/vXDabFtxD6" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay"></div>
+            <div class="header-content">
+                <div class="name-section">
+                    <h1 class="name highlight-text">PRIMEpluto_</h1>
+                    <p class="background">Fullstack Developer & UI/UX</p>
+                    <h2 class="name-secondary low-opacity-text">my dream is software engineering</h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about">
+            <h2 class="highlight-text">About Me</h2>
+            <div class="about-content">
+                <p>Just an ordinary man learning all existing technologies. Passionate about creating innovative solutions and continuously expanding my knowledge in the ever-evolving world of technology.</p>
+                <p style="margin-top: 30px;">With a focus on modern web development, I strive to build applications that are both functional and visually appealing.</p>
+            </div>
+        </section>
+
+        <!-- Skills Section - Simplified -->
+        <section class="skills-container" id="skills">
+            <h2 class="skills-title highlight-text">Skills & Technologies</h2>
+            <div class="skills-track">
+                <div class="skill-item">
+                    <i class="fab fa-react skill-icon"></i>
+                    <span class="skill-name">React</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-js skill-icon"></i>
+                    <span class="skill-name">JavaScript</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-github skill-icon"></i>
+                    <span class="skill-name">GitHub</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-code skill-icon"></i>
+                    <span class="skill-name">VS Code</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-python skill-icon"></i>
+                    <span class="skill-name">Python</span>
+                </div>
+                <!-- Duplicate items for seamless scrolling -->
+                <div class="skill-item">
+                    <i class="fab fa-react skill-icon"></i>
+                    <span class="skill-name">React</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-js skill-icon"></i>
+                    <span class="skill-name">JavaScript</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-github skill-icon"></i>
+                    <span class="skill-name">GitHub</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-code skill-icon"></i>
+                    <span class="skill-name">VS Code</span>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-python skill-icon"></i>
+                    <span class="skill-name">Python</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Media Section -->
+        <section class="social-media" id="social">
+            <h2 class="social-title highlight-text">Connect With Me</h2>
+            <p class="social-description">Let's connect and collaborate on exciting projects! Find me on these platforms:</p>
+            <div class="social-links">
+                <a href="https://github.com" target="_blank" class="social-link">
+                    <i class="fab fa-github social-icon"></i>
+                    <span class="social-name">GitHub</span>
+                </a>
+                <a href="https://www.instagram.com/dendyyyvel?igsh=ZHI1cnZpZDN3emZ1" target="_blank" class="social-link">
+                    <i class="fab fa-instagram social-icon"></i>
+                    <span class="social-name">Instagram</span>
+                </a>
+                <a href="https://www.tiktok.com/@f1rst167?_r=1&_t=ZS-917cbzFviu0" target="_blank" class="social-link">
+                    <i class="fab fa-tiktok social-icon"></i>
+                    <span class="social-name">TikTok</span>
+                </a>
+                <a href="https://discord.com" target="_blank" class="social-link">
+                    <i class="fab fa-discord social-icon"></i>
+                    <span class="social-name">Discord</span>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 PRIMEpluto_. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Fixed Staggered Menu Functionality
+        const menuWrapper = document.querySelector('.staggered-menu-wrapper');
+        const menuToggle = document.querySelector('.sm-toggle');
+        const menuPanel = document.querySelector('.staggered-menu-panel');
+        const textInner = document.querySelector('.sm-toggle-textInner');
+        const iconLines = document.querySelectorAll('.sm-icon-line');
+
+        let isMenuOpen = false;
+
+        // Menu toggle function
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
+            
+            // Update data attributes and ARIA labels
+            menuWrapper.setAttribute('data-open', isMenuOpen);
+            menuPanel.setAttribute('aria-hidden', !isMenuOpen);
+            menuToggle.setAttribute('aria-expanded', isMenuOpen);
+            menuToggle.setAttribute('aria-label', isMenuOpen ? 'Close menu' : 'Open menu');
+            
+            // Animate text
+            if (isMenuOpen) {
+                textInner.style.transform = 'translateY(-50%)';
+            } else {
+                textInner.style.transform = 'translateY(0)';
+            }
+            
+            // Animate icon
+            if (isMenuOpen) {
+                iconLines[0].style.transform = 'translate(-50%, -50%) rotate(45deg)';
+                iconLines[1].style.transform = 'translate(-50%, -50%) rotate(0deg)';
+            } else {
+                iconLines[0].style.transform = 'translate(-50%, -50%) rotate(0deg)';
+                iconLines[1].style.transform = 'translate(-50%, -50%) rotate(90deg)';
+            }
+        }
+
+        // Event listener for menu toggle
+        menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleMenu();
+        });
+
+        // Close menu when clicking on menu items
+        document.querySelectorAll('.sm-panel-item, .sm-socials-link').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Close menu
+                isMenuOpen = false;
+                menuWrapper.setAttribute('data-open', 'false');
+                menuPanel.setAttribute('aria-hidden', 'true');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                menuToggle.setAttribute('aria-label', 'Open menu');
+                textInner.style.transform = 'translateY(0)';
+                iconLines[0].style.transform = 'translate(-50%, -50%) rotate(0deg)';
+                iconLines[1].style.transform = 'translate(-50%, -50%) rotate(90deg)';
+                
+                // Handle navigation for menu items
+                const targetId = this.getAttribute('href');
+                if (targetId && targetId.startsWith('#')) {
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (isMenuOpen && !menuPanel.contains(e.target) && !menuToggle.contains(e.target)) {
+                toggleMenu();
+            }
+        });
+
+        // Enhanced hover effects for skill items
+        document.querySelectorAll('.skill-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.05)';
+                this.style.opacity = '1';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.opacity = '0.6';
+            });
+        });
+
+        // Pause animation on hover for skills track
+        const skillsTrack = document.querySelector('.skills-track');
+        skillsTrack.addEventListener('mouseenter', () => {
+            skillsTrack.style.animationPlayState = 'paused';
+        });
+        
+        skillsTrack.addEventListener('mouseleave', () => {
+            skillsTrack.style.animationPlayState = 'running';
+        });
+
+        // Smooth scrolling for social links in main section
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('http')) {
+                    window.open(href, '_blank');
+                }
+            });
+        });
+
+        // Add floating animation to header elements
+        const headerElements = document.querySelectorAll('.name, .background, .name-secondary');
+        headerElements.forEach((el, index) => {
+            el.style.animationDelay = `${index * 0.3}s`;
+        });
+
+        // ClickSpark Implementation
+        class ClickSpark {
+            constructor(options = {}) {
+                this.sparkColor = options.sparkColor || '#fff';
+                this.sparkSize = options.sparkSize || 10;
+                this.sparkRadius = options.sparkRadius || 15;
+                this.sparkCount = options.sparkCount || 8;
+                this.duration = options.duration || 400;
+                
+                this.init();
+            }
+            
+            init() {
+                document.addEventListener('click', this.handleClick.bind(this));
+            }
+            
+            handleClick(e) {
+                this.createSparks(e.clientX, e.clientY);
+            }
+            
+            createSparks(x, y) {
+                for (let i = 0; i < this.sparkCount; i++) {
+                    const spark = document.createElement('div');
+                    spark.className = 'spark';
+                    spark.style.background = this.sparkColor;
+                    spark.style.width = `${this.sparkSize}px`;
+                    spark.style.height = `${this.sparkSize}px`;
+                    
+                    const angle = (i / this.sparkCount) * Math.PI * 2;
+                    const tx = Math.cos(angle) * this.sparkRadius;
+                    const ty = Math.sin(angle) * this.sparkRadius;
+                    
+                    spark.style.setProperty('--tx', `${tx}px`);
+                    spark.style.setProperty('--ty', `${ty}px`);
+                    
+                    spark.style.left = `${x - this.sparkSize / 2}px`;
+                    spark.style.top = `${y - this.sparkSize / 2}px`;
+                    
+                    document.body.appendChild(spark);
+                    
+                    setTimeout(() => {
+                        spark.remove();
+                    }, this.duration);
+                }
+            }
+        }
+
+        // Initialize ClickSpark
+        new ClickSpark({
+            sparkColor: '#fff',
+            sparkSize: 10,
+            sparkRadius: 15,
+            sparkCount: 8,
+            duration: 400
+        });
+    </script>
+</body>
+</html>
